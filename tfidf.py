@@ -6,10 +6,7 @@ import math
 nltk.download('punkt')
 
 
-text = """Narendra Damodardas Modi (pronounced [ˈnəɾendrə dɑmodəɾˈdɑs ˈmodiː] (About this soundlisten); born 17 September 1950) is an Indian politician serving as the 14th and current Prime Minister of India since 2014. He was the Chief Minister of Gujarat from 2001 to 2014, and is the Member of Parliament for Varanasi. Modi is a member of the Bharatiya Janata Party (BJP) and the Rashtriya Swayamsevak Sangh (RSS).
-Born to a Gujarati family in Vadnagar, Modi helped his father sell tea as a child and later ran his own stall. He was introduced to the RSS at the age of eight, beginning a long association with the organisation. He left home after graduating from school, partly because of an arranged marriage which he rejected. Modi travelled around India for two years and visited a number of religious centres. He returned to Gujarat and moved to Ahmedabad in 1969 or 1970. In 1971 he became a full-time worker for the RSS. During the state of emergency imposed across the country in 1975, Modi was forced to go into hiding. The RSS assigned him to the BJP in 1985, and he held several positions within the party hierarchy until 2001, rising to the rank of General Secretary.
-Modi was appointed Chief Minister of Gujarat in 2001, due to Keshubhai Patel's failing health and poor public image following the earthquake in Bhuj. Modi was elected to the legislative assembly soon after. His administration has been considered complicit in the 2002 Gujarat riots,[a] or otherwise criticised for its handling of it; however, a Supreme Court-appointed Special Investigation Team (SIT) found no evidence to initiate prosecution proceedings against Modi personally.[b] His policies as chief minister, credited with encouraging economic growth, have received praise.[9] His administration has been criticised for failing to significantly improve health, poverty, and education indices in the state.[c]
-Modi led the BJP in the 2014 general election, which gave the party a majority in the Lok Sabha, the first time a single party had achieved this since 1984. Modi himself was elected to parliament from Varanasi. Since taking office, Modi's administration has tried to raise foreign direct investment in the Indian economy, increased spending on infrastructure, and reduced spending on healthcare and social welfare programmes. Modi has attempted to improve efficiency in the bureaucracy, and centralised power by abolishing the planning commission and replacing it with the NITI Aayog. He has begun a high-profile sanitation campaign, and weakened or abolished environmental and labour laws. Credited with engineering a political realignment towards right-wing politics, Modi remains a figure of controversy domestically and internationally over his Hindu nationalist beliefs and his role during the 2002 Gujarat riots, cited as evidence of an exclusionary social agenda.[d]"""
+text = """Sport (British English) or sports (American English) includes all forms of competitive physical activity or games which,[1] through casual or organised participation, aim to use, maintain or improve physical ability and skills while providing enjoyment to participants, and in some cases, entertainment for spectators.[2] Hundreds of sports exist, from those between single contestants, through to those with hundreds of simultaneous participants, either in teams or competing as individuals. In certain sports such as racing, many contestants may compete, simultaneously or consecutively, with one winner; in others, the contest (a match) is between two sides, each attempting to exceed the other. Some sports allow a "tie" or "draw", in which there is no single winner; others provide tie-breaking methods to ensure one winner and one loser. A number of contests may be arranged in a tournament producing a champion. Many sports leagues make an annual champion by arranging games in a regular sports season, followed in some cases by playoffs."""
 
 
 def remove_string_special_characters(s):
@@ -32,7 +29,7 @@ def get_doc(sent):
     for sent in text_sents_clean:
          i+=1
          count =count_words(sent)
-         temp ={'doc_id' :i,'doc_length' :count}
+         temp = {'doc_id': i, 'doc_length': count}
          doc_info.append(temp)
     return doc_info
 
@@ -108,7 +105,7 @@ def computeTFIDF(TF_scores,IDF_scores):
         TFIDF_scores.append(temp)
     return TFIDF_scores
 
-text_sents =sent_tokenize(text)
+text_sents = sent_tokenize(text)
 text_sents_clean =[remove_string_special_characters(s) for s in text_sents ]
 doc_info = get_doc(text_sents_clean)
 
@@ -117,16 +114,40 @@ TF_scores =computeTF(doc_info,freqDict_list)
 IDF_scores = computeIDF(doc_info,freqDict_list)
 TFIDF_scores = computeTFIDF(TF_scores,IDF_scores)
 
-print(text_sents)
-
-print(text_sents_clean)
-
+# print(text_sents)
+#
+# print(text_sents_clean)
+#
 print(doc_info)
+#
+# print(freqDict_list)
 
-print(freqDict_list)
-
-print(TF_scores)
-
-print(IDF_scores)
+# print(TF_scores)
+#
+# print(IDF_scores)
 
 print(TFIDF_scores)
+a=1
+sum=0
+sum1=[]
+
+for i in TFIDF_scores:
+    if i["doc_id"] == a:
+        sum = sum + i["TFIDF_score"]
+    else:
+        a = a+1
+        sum1.append(sum)
+        sum=0
+
+# print(sum1)
+z=len(doc_info)
+# for i in range(0,z):
+#  print(text_sents_clean[i])
+
+data_list=[]
+for i in range(0, z-1):
+    temp1 = {'score': sum1[i], 'content': text_sents_clean[i]}
+    data_list.append(temp1)
+
+
+print(data_list)
