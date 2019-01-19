@@ -3,7 +3,29 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+form {
+    min-width: 150px;
+    max-width: 900px;
+    width: 100%;
+    margin-left: 14%;
+    margin-top:30px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
 
+  .submitBtn {
+    cursor: pointer;
+    font-weight: 10;
+    width: 20px !important;
+    background: none;
+    height: 10px;
+    padding: 0px;  }
+
+    i{
+        margin: -12px;
+    }
 body {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 100%;
