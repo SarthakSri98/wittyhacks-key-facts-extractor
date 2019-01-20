@@ -1,31 +1,37 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect
 from flask_pymongo import PyMongo
 import wikipedia
 import nltk
 import re
+import pymongo
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize , sent_tokenize
 
 import math
 app = Flask(__name__)
 
-app.config['MONGO_DBNAME'] = 'wittyhacks'
-app.config['MONGO_URI'] = 'mongodb://Sarthak:Sarthak98@ds161134.mlab.com:61134/wittyhacks'
-
-mongo = PyMongo(app)
+# app.config['MONGO_DBNAME'] = 'wittyhacks'
+# app.config['MONGO_URI'] = 'mongodb://Sarthak:Sarthak98@ds161134.mlab.com:61134/wittyhacks'
+#
+# mongo = PyMongo(app)
 # two decorators, same function
+myclient = pymongo.MongoClient("mongodb://Sarthak:Sarthak98@ds161134.mlab.com:61134/wittyhacks")
+
+mydb = myclient["wittyhacks"]
+mycol = mydb["content"]
+
 
 
 @app.route('/')
 @app.route('/index.html')
 def index():
-    return render_template('index.html', the_title='Tiger Home Page')
+    return render_template('index.html', data={})
     
 
 @app.route('/home', methods=['POST'])
 def my_form():
     text = request.form['searchStr']
-    content = mongo.db.content
+    # content = mongo.db.contents
 
     def remove_string_special_characters(s):
             # Replace special characters with ' '
@@ -167,10 +173,9 @@ def my_form():
         data_list.append(temp1)
 
     print(data_list)
-
-
-    content.insert({'topic':text,'data': data_list})
-    return "added"
+    z={'topic':text,'data': data_list}
+    x = mycol.insert_one(z)
+    return redirect("/insert",code=302)
 
 
 # print(wikipedia.summary("google", sentences=3))
@@ -188,6 +193,14 @@ def my_form():
 # @app.route('/myth.html')
 # def myth():
 #     return render_template('myth.html', the_title='Tiger in Myth and Legend')
+
+@app.route('/insert', methods=['GET'])
+def getData():
+    for y in mycol.find():
+        data = y
+    return  render_template('index.html', data=data)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

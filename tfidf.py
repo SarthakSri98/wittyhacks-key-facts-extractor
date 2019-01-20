@@ -3,6 +3,8 @@ import re
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize , sent_tokenize
 import math
+from operator import attrgetter
+
 nltk.download('punkt')
 
 
@@ -147,7 +149,8 @@ z=len(doc_info)
 data_list=[]
 for i in range(0, z-1):
     temp1 = {'score': sum1[i], 'content': text_sents_clean[i]}
+    print(temp1)
     data_list.append(temp1)
 
-
-print(data_list)
+print(sorted(data_list, key=attrgetter('score')))
+# print(data_list)

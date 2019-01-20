@@ -1,19 +1,126 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="url" content="http://www.yourdomainname.com">
+    <meta name="robots" content="index,follow">
+    <title>Web Creatures</title>
+    <link rel="shortcut icon" href="../images/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="144x144" type="image/x-icon" href="../images/favicon/apple-touch-icon.png">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugin.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <style>
+        #textinput{
+          width:360px;
+          height:40px;
+        }
+        #buttonforinput{
+          width: 190px;
+          height: 45px;
+        }
+    </style>
+  </head>
 
-{% block body %}
+ <body>
+     <div class="preloader">
+	   <div class="rounder"></div>
+      </div>
+    <div id="main">
+        <div class="container">
+            <div class="row">
+                 <div class="col-md-3">
+                   <div class="about-fixed">
+                     <div class="my-pic">
+                        <img src="{{ url_for('static', filename ='search.png') }}" alt="">
+                        <a href="javascript:void(0)" class="collapsed" data-target="#menu" data-toggle="collapse"><i class="icon-menu menu"></i></a>
+                         <div id="menu" class="collapse">
+                           <ul class="menu-link">
+                               <li><a href="#">About</a></li>
+                               <li><a href="#">Work</a></li>
+                            </ul>
+                         </div>
+                        </div>
+                      <div class="my-detail">
+                        <div class="white-spacing">
+                            <h1>Web Creatures</h1>
+                            <span>Software Developer</span>
+                        </div>
 
-<form class="example-form" method="post" action="/home" name="searchForm" ">
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" name="searchStr" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-    <div class="input-group-append">
-      <span class="input-group-text" id="basic-addon2">
-        <button class="submitBtn btn" type="submit">
-          <i class="fa fa-search"></i>
-        </button>
-      </span>
-    </div>
-  </div>
+                       <ul class="social-icon">
+                         <li><a href="#" target="_blank" class="github"><i class="fa fa-github"></i></a></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+                 <div class="col-md-9">
+                    <div class="col-md-12 page-body">
+                    	<div class="row">
+                            <div class="sub-title">
+                           		<h2>Facts Extracter</h2>
 
-</form>
+                              <!--  Text input -->
+                              <form method = "post" action ="/home">
+                                  <input type = "text" placeholder="Search" name = "searchStr" id = "textinput" />
+                                  <input type = "submit" value="Search" id="buttonforinput">
+                              </form>
 
-{% endblock %}
+                              <!--        ************           -->
+                                <a href="#"><i class="icon-envelope"></i></a>
+                             </div>
+                            <div class="col-md-12 content-page">
+                                <div class="col-md-12 blog-post">
+                                    <div class="post-title">
+                                      <h1 id="heading"></h1>
+                                    </div>
+                                    {% for item in data.data %}
+      
+                                    <!-- {{item.score}} -->
+                              
+                                  
+                                <div id = "paragraph"> {{item.content}}</div>
+                                     
+                                {% endfor %}
+                                </div>
+                             </div>
+                         </div>
+                        <div class="col-md-8 col-md-offset-2">
+                         <form id="mc-form" method="post" action="">
+
+						  <div class="subscribe-form margin-top-20">
+
+							 <input id="mc-email" type="email" placeholder="Email Address" class="text-input">
+							  <button class="submit-btn" type="submit">Submit</button>
+								</div>
+                                <p>For any queries enter your email</p>
+								<label for="mc-email" class="mc-label"></label>
+							  </form>
+                           </div>
+                         </div>
+                       <div class="col-md-12 page-body margin-top-50 footer">
+                          <footer>
+                          <ul class="menu-link">
+                               <li><a href="#">Home</a></li>
+                               <li><a href="#">About</a></li>
+
+                            </ul>
+                         </footer>
+                       </div>
+                  </div>
+            </div>
+         </div>
+      </div>
+    <a href="#" class="scroll-to-top"><i class="fa fa-long-arrow-up"></i></a>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugin.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts.js')}}"></script>
+<script>
+     var heading = document.getElementById('heading');
+     console.log(document.getElementById('textinput').value());
+    heading.innerHTML = document.getElementById('textinput').value();
+</script>
+   </body>
+ </html>
