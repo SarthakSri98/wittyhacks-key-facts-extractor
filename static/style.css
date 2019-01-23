@@ -322,8 +322,7 @@ button {
 
 .about-fixed {
     position: fixed;
-    width: 20.8%;
-}
+    width: 16.8%;}
 
 .my-pic {
     width: 100%;
@@ -1232,7 +1231,11 @@ blockquote {
     }
 }
 
-
+#paragraph{
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    letter-spacing: 3.3px;
+}
 
 @media only screen and (max-width: 767px) {
      

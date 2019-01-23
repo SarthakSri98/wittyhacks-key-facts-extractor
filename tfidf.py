@@ -143,14 +143,20 @@ for i in TFIDF_scores:
 
 # print(sum1)
 z=len(doc_info)
-# for i in range(0,z):
-#  print(text_sents_clean[i])
+
 
 data_list=[]
-for i in range(0, z-1):
-    temp1 = {'score': sum1[i], 'content': text_sents_clean[i]}
+for i in range(0, z):
+    temp1 = {'score': sum1[i-1], 'content': text_sents_clean[i-1]}
     print(temp1)
     data_list.append(temp1)
 
-print(sorted(data_list, key=attrgetter('score')))
-# print(data_list)
+for i in range(0,z-1):
+    for j in range(i+1,z-1):
+        if (data_list[i]["score"])<(data_list[j]["score"]):
+            data_list[i],data_list[j] = data_list[j],data_list[i]
+            # print("hello")
+
+
+
+print(data_list)

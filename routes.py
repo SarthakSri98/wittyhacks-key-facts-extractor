@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request,redirect
+from flask import Flask, render_template, request, redirect
 from flask_pymongo import PyMongo
 import wikipedia
 import nltk
 import re
 import pymongo
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize , sent_tokenize
+from nltk.tokenize import word_tokenize, sent_tokenize
 
 import math
 app = Flask(__name__)
@@ -15,18 +15,18 @@ app = Flask(__name__)
 #
 # mongo = PyMongo(app)
 # two decorators, same function
-myclient = pymongo.MongoClient("mongodb://Sarthak:Sarthak98@ds161134.mlab.com:61134/wittyhacks")
+myclient = pymongo.MongoClient(
+    "mongodb://Sarthak:Sarthak98@ds161134.mlab.com:61134/wittyhacks")
 
 mydb = myclient["wittyhacks"]
 mycol = mydb["content"]
-
 
 
 @app.route('/')
 @app.route('/index.html')
 def index():
     return render_template('index.html', data={})
-    
+
 
 @app.route('/home', methods=['POST'])
 def my_form():
@@ -113,8 +113,10 @@ def my_form():
         for dict in freqDict_list:
             counter += 1
             for k in dict['freq_dict'].keys():
-                count = sum([k in tempDict['freq_dict'] for tempDict in freqDict_list])
-                temp = {'doc_id': counter, 'IDF_score': math.log(len(doc_info) / count), 'key': k}
+                count = sum([k in tempDict['freq_dict']
+                            for tempDict in freqDict_list])
+                temp = {'doc_id': counter, 'IDF_score': math.log(
+                    len(doc_info) / count), 'key': k}
 
                 IDF_scores.append(temp)
         return IDF_scores
@@ -124,12 +126,14 @@ def my_form():
         for j in IDF_scores:
             for i in TF_scores:
                 if j['key'] == i['key'] and j['doc_id'] == i['doc_id']:
-                    temp = {'doc_id': j['doc_id'], 'TFIDF_score': j['IDF_score'] * i['TF_score'], 'key': i['key']}
+                    temp = {
+                        'doc_id': j['doc_id'], 'TFIDF_score': j['IDF_score'] * i['TF_score'], 'key': i['key']}
             TFIDF_scores.append(temp)
         return TFIDF_scores
 
     text_sents = sent_tokenize(wikipedia.summary(text))
-    text_sents_clean = [remove_string_special_characters(s) for s in text_sents]
+    text_sents_clean = [
+        remove_string_special_characters(s) for s in text_sents]
     doc_info = get_doc(text_sents_clean)
 
     freqDict_list = create_freq_dict(text_sents_clean)
@@ -156,7 +160,7 @@ def my_form():
 
     for i in TFIDF_scores:
         if i["doc_id"] == a:
-            sum2 = sum2 + i["TFIDF_score"]
+            sum2 = sum2+ i["TFIDF_score"]
         else:
             a = a + 1
             sum1.append(sum2)
@@ -168,11 +172,17 @@ def my_form():
     #  print(text_sents_clean[i])
 
     data_list = []
-    for i in range(0, z - 1):
-        temp1 = {'score': sum1[i], 'content': text_sents_clean[i]}
+    for i in range(0, z):
+        temp1 = {'score': sum1[i - 1], 'content': text_sents_clean[i - 1]}
+        print(temp1)
         data_list.append(temp1)
 
-    print(data_list)
+    for i in range(0, z - 1):
+        for j in range(i + 1, z - 1):
+            if (data_list[i]["score"]) < (data_list[j]["score"]):
+                data_list[i], data_list[j] = data_list[j], data_list[i]
+                # print("hello")
+
     z={'topic':text,'data': data_list}
     x = mycol.insert_one(z)
     return redirect("/insert",code=302)

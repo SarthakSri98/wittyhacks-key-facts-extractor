@@ -12,7 +12,8 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugin.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
     <style>
         #textinput{
           width:360px;
@@ -26,6 +27,8 @@
   </head>
 
  <body>
+    <h1 style="text-align: center">Facts Extractor</h1>
+
      <div class="preloader">
 	   <div class="rounder"></div>
       </div>
@@ -36,7 +39,7 @@
                    <div class="about-fixed">
                      <div class="my-pic">
                         <img src="{{ url_for('static', filename ='search.png') }}" alt="">
-                        <a href="javascript:void(0)" class="collapsed" data-target="#menu" data-toggle="collapse"><i class="icon-menu menu"></i></a>
+                        <!-- <a href="javascript:void(0)" class="collapsed" data-target="#menu" data-toggle="collapse"><i class="icon-menu menu"></i></a> -->
                          <div id="menu" class="collapse">
                            <ul class="menu-link">
                                <li><a href="#">About</a></li>
@@ -47,11 +50,10 @@
                       <div class="my-detail">
                         <div class="white-spacing">
                             <h1>Web Creatures</h1>
-                            <span>Software Developer</span>
                         </div>
 
                        <ul class="social-icon">
-                         <li><a href="#" target="_blank" class="github"><i class="fa fa-github"></i></a></li>
+                         <!-- <li><a href="#" target="_blank" class="github"><i class="fa fa-github"></i></a></li> -->
                         </ul>
                     </div>
                   </div>
@@ -60,7 +62,6 @@
                     <div class="col-md-12 page-body">
                     	<div class="row">
                             <div class="sub-title">
-                           		<h2>Facts Extracter</h2>
 
                               <!--  Text input -->
                               <form method = "post" action ="/home">
@@ -69,20 +70,22 @@
                               </form>
 
                               <!--        ************           -->
-                                <a href="#"><i class="icon-envelope"></i></a>
+                                <!-- <a href="#"><i class="icon-envelope"></i></a> -->
                              </div>
                             <div class="col-md-12 content-page">
                                 <div class="col-md-12 blog-post">
                                     <div class="post-title">
                                       <h1 id="heading"></h1>
                                     </div>
+                                    <div style="margin:auto">
+                                    <h2>{{ data.topic }}</h2>
+
+                                  </div>
                                     {% for item in data.data %}
-      
+                                    {% if loop.index <= 8 %}
                                     <!-- {{item.score}} -->
-                              
-                                  
-                                <div id = "paragraph"> {{item.content}}</div>
-                                     
+                                <div id = "paragraph">{{ loop.index }}.  {{item.content}}</div><br><br>
+                                     {% endif %}
                                 {% endfor %}
                                 </div>
                              </div>
@@ -113,7 +116,7 @@
             </div>
          </div>
       </div>
-    <a href="#" class="scroll-to-top"><i class="fa fa-long-arrow-up"></i></a>
+    <!-- <a href="#" class="scroll-to-top"><i class="fa fa-long-arrow-up"></i></a> -->
     <script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='plugin.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts.js')}}"></script>
